@@ -5,9 +5,11 @@
 public class MessageX : MessageBase
 {
     public static readonly short MsgType = short.MaxValue;
-
-    public string Message { get; set; }
-    public string From { get; set; }
+    
+    // Use Field here, NOT Property
+    //
+    public string Message;
+    public string From;
 
     public override string ToString()
     {

@@ -71,6 +71,8 @@ public class SendMessageX : MonoBehaviour
         mx.From = fromInput.text;
 
         client.Send(MessageX.MsgType, mx);
+        
+        Debug.Log(string.Format("CLIENT: {0}", mx));
     }
 
     #endregion
