@@ -8,26 +8,39 @@ public class SimpleNetworkGUI : MonoBehaviour
 	void Start()
 	{
 		isHaveNetworkRole = false;
+		NetworkServer.RegisterHandler(MsgType.Disconnect, OnDisconnected);
+	}
+	
+	private void OnDisconnected(NetworkMessage msg)
+	{
+		isHaveNetworkRole = false;
+		Application.LoadLevel(Application.loadedLevel);
 	}
 	
     void OnGUI()
     {
 		if(isHaveNetworkRole)
 		{
+			if(GUI.Button(new Rect(Screen.width / 2 - 80, Screen.height / 2 - 12, 160, 24), "Stop"))
+			{
+				NetworkManager.singleton.StopServer();
+				NetworkManager.singleton.StopClient();
+				isHaveNetworkRole = false;
+			}
 			return;
 		}
 		
-		if(GUI.Button(new Rect(Screen.width / 2f - 80, Screen.height / 2 - 12, 160, 24), "Start Host"))
+		if(GUI.Button(new Rect(Screen.width / 2f - 80, Screen.height / 2 - 12, 160, 24), "Start Server"))
 		{
-			NetworkManager.singleton.StartHost();
+			NetworkManager.singleton.StartServer();
 			isHaveNetworkRole = true;
 		}
 		
 		if(GUI.Button(new Rect(Screen.width / 2f - 80, Screen.height / 2 + 24, 160, 24), "Start Client"))
 		{
-			NetworkManager.singleton.StartClient();
+			var client = NetworkManager.singleton.StartClient();
+			client.RegisterHandler(MsgType.Disconnect, OnDisconnected);
 			isHaveNetworkRole = true;
 		}
-		
 	}
 }

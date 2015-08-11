@@ -3,35 +3,27 @@ using UnityEngine;
 
 public class SyncVarSample : NetworkBehaviour
 {
-
     [SyncVar]
-    string State;
+    string State = "Init State";
 
-    void Start()
+    private void ChangeState()
     {
-		Init();
+        
+        State = Random.Range(0, int.MaxValue).ToString();
     }
 
-    private void Init()
+    void OnGUI()
     {
-        State = "Init State";
+        GUI.Label(new Rect(10, 20, 120, 24), State);
+        
+        // 因为 UNet 是以 Server 为主导的系统，只有在 Server 端改变值才能起作用
+        //
+        if (isServer)
+        {
+            if (GUI.Button(new Rect(10, 56, 160, 24), "ChangeState"))
+            {
+                ChangeState();
+            }
+        }
     }
-
-	private void ChangeState()
-	{
-		State = "State Changed";
-	}
-
-	void OnGUI()
-	{
-		GUI.Label(new Rect(10, 20, 120, 24), State);
-		
-		if(isServer)
-		{
-			if(GUI.Button(new Rect(10, 56, 160, 24), "ChangeState"))
-			{
-				ChangeState();
-			}
-		}
-	}
 }
