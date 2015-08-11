@@ -8,7 +8,6 @@ public class SimpleNetworkGUI : MonoBehaviour
 	void Start()
 	{
 		isHaveNetworkRole = false;
-		NetworkServer.RegisterHandler(MsgType.Disconnect, OnDisconnected);
 	}
 	
 	private void OnDisconnected(NetworkMessage msg)
@@ -25,15 +24,14 @@ public class SimpleNetworkGUI : MonoBehaviour
 			{
 				NetworkManager.singleton.StopServer();
 				NetworkManager.singleton.StopClient();
-				isHaveNetworkRole = false;
+				OnDisconnected(null);
 			}
 			return;
 		}
 		
 		if(GUI.Button(new Rect(Screen.width / 2f - 80, Screen.height / 2 - 12, 160, 24), "Start Server"))
 		{
-			NetworkManager.singleton.StartServer();
-			isHaveNetworkRole = true;
+			isHaveNetworkRole = NetworkManager.singleton.StartServer();
 		}
 		
 		if(GUI.Button(new Rect(Screen.width / 2f - 80, Screen.height / 2 + 24, 160, 24), "Start Client"))
