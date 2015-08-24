@@ -15,5 +15,7 @@ EditorBuildSettings:
     path: Assets/104 - simple network GUI/104.unity
   - enabled: 0
     path: Assets/105 - Sync Var/105.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/106 - Command/106.unity
+  - enabled: 1
+    path: Assets/107 - Rpc/107.unity
